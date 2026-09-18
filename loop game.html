@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+</head>
+
+<body>
+
+<pre id="output">
+
+      ┌─────────────────────┐ 
+      │   *                  │        
+      └─────────────────────┘ 
+   
+</pre>
+<button class="button">←</button>
+<button class="button">→</button>
+    <script>
+const n = 10;
+let result = "┌";
+let i = 0;
+while (i < n){
+    result = result + "─"
+    result = result + "┐"
+    i++;
+}
+document.getElementById("output").textContent = result;
+    </script>
+</body>
+
+</html>

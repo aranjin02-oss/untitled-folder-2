@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css"
+>
+</head>
+
+<body>
+
+
+
+
+    <div id="output" style="margin: 30px auto; max-width: 400px; text-align: center;"></div>
+    <script>
+        const output = document.getElementById("output");
+
+        let i = 1;
+        const n = 7;
+        while (i < 11) {
+            // console.log(`${n} * ${i} = ${n * i}`);
+
+            output.innerHTML = output.innerHTML + `<div class="box">${n} * ${i} = ${n * i}</div>`;
+
+
+            i++;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>
