@@ -4,112 +4,300 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <title>game 2d</title>
+    <style>
+        body {
+            background-color: rgb(177, 190, 193);
+        }
+
+        .header {
+            margin: 0 auto;
+
+
+        }
+
+        .board-imege {
+            height: 150px;
+            width: 300px;
+        }
+
+        .board {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            object-fit: cover;
+            border-radius: 10px;
+            margin: 0 auto;
+            margin-top: 10px;
+           box-shadow: 5px 5px 10px rgb(158, 190, 226);
+
+        }
+
+        .player {
+            width: 10px;
+            height: 10px;
+            /* background-color: rgb(50, 59, 59); */
+            border-radius: 50%;
+            position: absolute;
+            top: 50px;
+            left: 150px;
+            font-size: 8px;
+            text-align: center;
+        }
+
+        .star {
+            width: 10px;
+            height: 10px;
+            /* background-color: rgb(50, 59, 59); */
+            border-radius: 50%;
+            position: absolute;
+            top: 50px;
+            left: 150px;
+            font-size: 8px;
+            text-align: center;
+        }
+
+        .box {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+           
+           
+        }
+
+        .toch {
+            height: 20px;
+            width: 30px;
+            align-items: center;
+            border: 1px solid rgb(167, 229, 217);
+            border-radius: 10px;
+
+        }
+        .main{
+            display: flex;
+            justify-content: center;
+
+        }
+
+        .hero {
+            height: 20px;
+            width: 50px;
+            background-color: rgb(147, 215, 234);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-size: 10px;
+            border: 1px solid rgb(169, 173, 174);
+            border-radius: 10px;
+        }
+        .hero-time{
+            height: 20px;
+            width: 50px;
+            background-color: rgb(147, 204, 240);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-size: 10px;
+            border: 1px solid rgb(169, 173, 174);
+             border-radius: 10px;
+        }
+    </style>
 </head>
 
 <body>
-
-    <div class="container m-6">
-        <div class="box" id="nameBox">
-            <div class="mb-4"> What is your name </div>
-            <div class="is-flex">
-                <input id="input" class="input is-danger mr-4" type="text">
-                <Button class="Button" onclick="start()"> Start</Button>
-            </div>
-            <p id="errorMessage" style="display: none;">Enter yuor name </p>
-        </div>
-
-        <div id="healthBar" class=" box" style="display: none;">
-            <p class="mb-4 "> PLayer /HP\</p>
-            <div id="nameHeader"></div>
-            <progress id="header" class="progress is-success" value="100" max="100"> </progress>
-            <div class="buttons">
-                <button class="button" onclick="attack()"><i data-lucide="shield-ban"></i> Attack</button>
-                <button class="button" onclick="heal()"><i data-lucide="cross"></i> Heal</button>
-            </div>
-
-        </div>
-
+    <div class="main">
+        <div id="score" class="hero">0</div>
+        <div id="timer" class="hero-time">0</div>
     </div>
 
+    <div class="header">
+        <div id="board" class="board"> <img class="board-imege" src="images (5).jpeg" style=" border-radius: 10px;">
+            <div id="player" class="player" style="top: 10px; left: 30px;">🪣</div>
+            <div id="star1" class="star">💧</div>
+        </div>
+        <div class="box">
+
+            <button class="toch" onclick=" changeDir('up')">⇧</button>
+             <button class="toch" onclick=" changeDir('down')">⇩</button>
+            <button class="toch" onclick=" changeDir('left')">⇦</button>
+            <button class="toch" onclick=" changeDir('right')">⇨ </button>
+           
+
+        </div>
+
+
+        <script>
+            let direction = "right";
+
+            const currentHighScore = localStorage.getItem("highscore");
+            let hs = 0;
+            if (currentHighScore != null) {
+                hs = Number(currentHighScore);
+            }
+            // const hs = Number(currentHighScore); 
+            let duu = new Audio("aagii.mp3")
+            let score = 0;
+
+            let playerX = 10;
+            let playerY = 20;
+
+            let timer = 20;
+
+            const timeEl = document.getElementById("timer");
+            setInterval(function () {
+                timer--;
+                timeEl.textContent = timer;
+                if (timer == 0) {
+                    alert(`Your score is ${score}`);
+
+                    if (score > hs) {
+                        alert(` Well done ! New high score ${score}`);
+                        localStorage.setItem("highscore", score);
+                    }
+
+
+                    timer = 60;
+                    score = 0;
+                }
+            }, 1000)
+
+
+            let starX = 50;
+            let starY = 60;
+
+            const boardHeight = 150;
+            const boardWidth = 300;
+
+            const playerEl = document.getElementById("player");
+            const boardEl = document.getElementById("board");
+            const star1El = document.getElementById("star1")
 
 
 
-    <script>
+            boardEl.style.width = `${boardWidth}px`;
+            boardEl.style.height = `${boardHeight}px`;
 
-        function start() {
+            draw();
+   
+            function moveUp() {
+                playerY = playerY - 10;
+                if (playerY < 0) {
+                    playerY = boardHeight - 10;
+                }
+                draw();
+            }
+            function moveDown() {
+                playerY = playerY + 10;
+                if (playerY > boardHeight - 10) {
+                    playerY = 0;
+                }
+                draw();
+            }
+            function moveRight() {
+                playerX = playerX + 10;
+                if (playerX > boardWidth - 10) {
+                    playerX = 0;
+                }
+                draw();
+            }
+            function moveleft() {
+                playerX = playerX - 10;
+                if (playerX < 0) {
+                    playerX = boardWidth - 10
+                }
+                draw();
+            }
+
+            document.addEventListener("keydown", function (event) {
+
+                if (event.code == "ArrowUp") {
+                    changeDir('up');
+                }
+                else if (event.code == "ArrowDown") {
+                    changeDir('down');
+                }
+                else if (event.code == "ArrowRight") {
+                    changeDir('right');
+                }
+                else if (event.code == "ArrowLeft") {
+                    changeDir('left');
+                }
+
+            });
 
 
-            const inputEL = document.getElementById("input");
-            const myName = input.value;
-            if (myName == "") {
-                inputEL.classList.add("is-danger");
-                inputEL.classList.add("animate__animated");
-                inputEL.classList.add("animate__pulse");
-                document.getElementById("errorMessage").style.display = "block";
-            } else {
-                const healthEL = document.getElementById("healthBar");
-                healthEL.style.display = "block";
+            function getRandomInt(max) {
+                return Math.floor(Math.random() * max);
+            }
 
-                const nameEL = document.getElementById("nameBox");
-                nameEL.style.display = "none";
+            function draw() {
 
-                document.getElementById("nameHeader").textContent = myName;
+                playerEl.style.top = `${playerY}px`
+                playerEl.style.left = `${playerX}px`
+
+                star1El.style.top = `${starY}px`
+                star1El.style.left = `${starX}px`
+
+                if (playerX == starX && playerY == starY) {
+                    score++;
+                    document.getElementById("score").textContent = score;
+                    duu.play()
+
+                    starX = getRandomInt(30) * 10;
+                    starY = getRandomInt(15) * 10;
+                    draw();
+                }
+
+
+            }
+            function gameLoop() {
+                if (direction == "right") {
+                    moveRight();
+                }
+                else if (direction == "left") {
+                    moveleft();
+                }
+                else if (direction == "up") {
+                    moveUp();
+                }
+                else if (direction == "down") {
+                    moveDown();
+                }
+
+            }
+            let speed = 250;
+
+
+
+            function changeDir(newDir) {
+                direction = newDir;
             }
 
 
+            let gameInterval = setInterval(gameLoop, 250);
+            document.addEventListener("keydown", function (event) {
+                if (event.code == "Space") {
+                    clearInterval(gameInterval)
+
+                    gameInterval = setInterval(gameLoop, 100);
+                }
 
 
-        }
+            });
+            document.addEventListener("keyup", function (event) {
+                if (event.code == "Space") {
+                    clearInterval(gameInterval)
 
+                    gameInterval = setInterval(gameLoop, 250);
+                }
 
-        function attack() {
-
-            const r = Math.random();
-            const attackForce = Math.round(r * 10)
-
-            const headerEL = document.getElementById("header");
-            const maheader = headerEL.value;
-            headerEL.value = headerEL.value - attackForce;
-
-            if (headerEL.value <= 80) {
-                headerEL.className = "progress is-warning";
-            }
-            if (headerEL.value <= 30) {
-                headerEL.className = "progress is-link";
-            }
-            if (headerEL.value <= 0) {
-                alert("You lost")
-            }
-
-        }
-
-
-        function heal() {
-
-            const headerEL = document.getElementById("header");
-            const maheader = headerEL.value;
-            headerEL.value = headerEL.value + 5;
-
-            if (headerEL.value >= 30) {
-                headerEL.className = "progress is-warning";
-            }
-            if (headerEL.value >= 80) {
-                headerEL.className = "progress is-success";
-            }
-
-        }
-
-
-    </script>
-
+            });
+        </script>
+    </div>
 
 </body>
-<script src="https://unpkg.com/lucide@latest"></script>
-<script>
-    lucide.createIcons();
-</script>
 
 </html>

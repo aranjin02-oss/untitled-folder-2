@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+</head>
+
+<body>
+
+    <div class="container m-6">
+        <div class="box" id="nameBox">
+            <div class="mb-4"> What is your name </div>
+            <div class="is-flex">
+                <input id="input" class="input is-danger mr-4" type="text">
+                <Button class="Button" onclick="start()"> Start</Button>
+            </div>
+            <p id="errorMessage" style="display: none;">Enter yuor name </p>
+        </div>
+
+        <div id="healthBar" class=" box" style="display: none;">
+            <p class="mb-4 "> PLayer /HP\</p>
+            <div id="nameHeader"></div>
+            <progress id="header" class="progress is-success" value="100" max="100"> </progress>
+            <div class="buttons">
+                <button class="button" onclick="attack()"><i data-lucide="shield-ban"></i> Attack</button>
+                <button class="button" onclick="heal()"><i data-lucide="cross"></i> Heal</button>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+
+    <script>
+
+        function start() {
+
+
+            const inputEL = document.getElementById("input");
+            const myName = input.value;
+            if (myName == "") {
+                inputEL.classList.add("is-danger");
+                inputEL.classList.add("animate__animated");
+                inputEL.classList.add("animate__pulse");
+                document.getElementById("errorMessage").style.display = "block";
+            } else {
+                const healthEL = document.getElementById("healthBar");
+                healthEL.style.display = "block";
+
+                const nameEL = document.getElementById("nameBox");
+                nameEL.style.display = "none";
+
+                document.getElementById("nameHeader").textContent = myName;
+            }
+
+
+
+
+        }
+
+
+        function attack() {
+
+            const r = Math.random();
+            const attackForce = Math.round(r * 10)
+
+            const headerEL = document.getElementById("header");
+            const maheader = headerEL.value;
+            headerEL.value = headerEL.value - attackForce;
+
+            if (headerEL.value <= 80) {
+                headerEL.className = "progress is-warning";
+            }
+            if (headerEL.value <= 30) {
+                headerEL.className = "progress is-link";
+            }
+            if (headerEL.value <= 0) {
+                alert("You lost")
+            }
+
+        }
+
+
+        function heal() {
+
+            const headerEL = document.getElementById("header");
+            const maheader = headerEL.value;
+            headerEL.value = headerEL.value + 5;
+
+            if (headerEL.value >= 30) {
+                headerEL.className = "progress is-warning";
+            }
+            if (headerEL.value >= 80) {
+                headerEL.className = "progress is-success";
+            }
+
+        }
+
+
+    </script>
+
+
+</body>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+    lucide.createIcons();
+</script>
+
+</html>
